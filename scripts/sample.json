@@ -1,0 +1,25 @@
+{
+  "slug": "two-losses-then-size-up",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "red", "lines": [
+      {"say": "Two losses in a row.", "show": "Two *losses* in a row."},
+      {"say": "Then you size up.", "show": "Then you *size up.*"}
+    ]},
+    {"type": "stack", "accent": "amber", "lines": [
+      {"say": "That is not a setup.", "show": "That's not a setup."},
+      {"say": "That is revenge.", "show": "That's *revenge.*"}
+    ]},
+    {"type": "list", "accent": "blue", "lines": [
+      {"say": "Write the rules once.", "show": "Write the rules *once.*"},
+      {"say": "Risk one percent.", "show": "Risk 1% per trade"},
+      {"say": "Stop after two losses.", "show": "Stop after 2 losses"},
+      {"say": "Wait for the candle close.", "show": "Wait for the close"}
+    ]},
+    {"type": "phone", "accent": "green", "screen": "screen4.jpg", "lines": [
+      {"say": "Shugo checks every trade idea against them.", "show": "Shugo checks *every idea* against them."},
+      {"say": "Before you risk a cent.", "show": "*Before* you risk a cent."}
+    ]}
+  ],
+  "outro": {"tagline": "Your rules come first.", "say": "Shugo. Your rules come first."}
+}

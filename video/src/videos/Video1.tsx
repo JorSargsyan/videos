@@ -1,0 +1,282 @@
+import React from "react";
+import {
+  AbsoluteFill,
+  Sequence,
+  useCurrentFrame,
+  useVideoConfig,
+  spring,
+  interpolate,
+  Easing,
+} from "remotion";
+import { Background } from "../components/Background";
+import { Caption } from "../components/Caption";
+import { Phone } from "../components/Phone";
+import { Outro } from "../components/Outro";
+import { Camera, Flash, Particles, Sweep, Chart } from "../components/Fx";
+import { theme } from "../theme";
+
+/** Video 1 — "The Rule You Always Break" — 18 s, high-energy cut */
+const S1 = 0; // You wrote the rule.
+const S2 = 50; // rule card
+const S3 = 180; // chart + phone + crash + stamp
+const S4 = 310; // flip to rules, push in, highlight
+const S5 = 440; // outro
+export const VIDEO1_DURATION = 540;
+
+const CRASH = S3 + 56; // chart crashes, "anyway"
+const STAMP = S3 + 70; // WEAK SETUP
+
+const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+
+export const Video1: React.FC = () => {
+  return (
+    <AbsoluteFill style={{ fontFamily: theme.font, background: theme.bg }}>
+      <Camera
+        cuts={[S1, S2, S3, S4, S5]}
+        whips={[S2, S3]}
+        shakes={[
+          { at: 2, amount: 9 }, { at: 9, amount: 9 }, { at: 16, amount: 9 }, { at: 23, amount: 14 },
+          { at: CRASH, amount: 16, len: 18 },
+          { at: STAMP, amount: 34, len: 20 },
+          { at: S4 + 16, amount: 10 },
+          { at: S5 + 6, amount: 18 },
+        ]}
+      >
+        <Background />
+        <Particles />
+
+        <Sequence from={S1} durationInFrames={S2 - S1 + 4} name="Hook">
+          <Hook />
+        </Sequence>
+
+        <Sequence from={S2} durationInFrames={S3 - S2 + 4} name="Rule card">
+          <RuleCard />
+        </Sequence>
+
+        <Sequence from={S3} durationInFrames={S5 - S3 + 4} name="Phone">
+          <PhoneScene />
+        </Sequence>
+
+        <Sequence from={S5} durationInFrames={VIDEO1_DURATION - S5} name="Outro">
+          <Outro tagline="Your rules come first." />
+        </Sequence>
+      </Camera>
+
+      {/* flashes live outside the camera so they stay full-frame */}
+      <Flash at={[2, 9, 16, 23]} strength={0.35} />
+      <Flash at={[CRASH]} color={theme.red} strength={0.55} />
+      <Flash at={[STAMP]} strength={0.95} />
+      <Flash at={[S4 + 16]} color={theme.green} strength={0.35} />
+    </AbsoluteFill>
+  );
+};
+
+const Center: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", padding: 80 }}>
+    {children}
+  </AbsoluteFill>
+);
+
+/* ---------- Scene 1: slam hook ---------- */
+const Hook: React.FC = () => {
+  const frame = useCurrentFrame();
+  const len = S2 - S1;
+  const out = interpolate(frame, [len - 6, len], [1, 0], clamp);
+  return (
+    <Center>
+      <div style={{ opacity: out, transform: `scale(${interpolate(frame, [len - 6, len], [1, 1.3], clamp)})` }}>
+        <Caption words={["You", "wrote", {text: "the", color: theme.white}, {text: "rule.", color: theme.blue}]} size={118} mode="slam" stagger={7} startDelay={2} maxWidth={960} />
+      </div>
+    </Center>
+  );
+};
+
+/* ---------- Scene 2: the rule card types itself ---------- */
+const RULE = "Never trade against the 4h trend";
+const RuleCard: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const len = S3 - S2;
+  const s = spring({ frame, fps, config: { damping: 14, stiffness: 150, mass: 0.8 } });
+  const rotX = interpolate(s, [0, 1], [-75, 0]);
+  const typed = Math.floor(interpolate(frame, [10, 44], [0, RULE.length], clamp));
+  const cursor = frame < 48 && Math.floor(frame / 4) % 2 === 0;
+  const check = spring({ frame: frame - 48, fps, config: { damping: 9, stiffness: 220 } });
+  const glow = interpolate(frame, [48, 52, 80], [0, 1, 0.35], clamp);
+  const out = interpolate(frame, [len - 6, len], [1, 0], clamp);
+  const outY = interpolate(frame, [len - 6, len], [0, -200], clamp);
+
+  return (
+    <Center>
+      <div style={{ opacity: out, transform: `translateY(${outY}px)`, display: "flex", flexDirection: "column", alignItems: "center", gap: 44, perspective: 1600 }}>
+        <Caption words={["RULE", "#1"]} size={40} weight={800} mode="slam" stagger={4} style={{ color: theme.blue, letterSpacing: 8 }} />
+        <div
+          style={{
+            width: 920,
+            padding: "46px 48px",
+            borderRadius: 36,
+            background: "rgba(12,16,34,0.85)",
+            border: `2px solid rgba(74,124,255,${0.25 + glow * 0.6})`,
+            boxShadow: `0 30px 100px rgba(0,0,0,0.6), 0 0 ${glow * 120}px rgba(34,197,94,${glow * 0.7})`,
+            display: "flex",
+            alignItems: "center",
+            gap: 36,
+            transform: `rotateX(${rotX}deg) translateY(${interpolate(s, [0, 1], [200, 0])}px)`,
+            transformOrigin: "50% 100%",
+            opacity: s,
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <Sweep at={50} len={20} />
+          <div style={{ width: 84, height: 84, borderRadius: 42, background: "rgba(74,124,255,0.2)", color: theme.blue, fontSize: 40, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            1
+          </div>
+          <div style={{ fontSize: 50, fontWeight: 600, lineHeight: 1.2, color: theme.white, flex: 1, minHeight: 120, display: "flex", alignItems: "center" }}>
+            <span>
+              {RULE.slice(0, typed)}
+              <span style={{ opacity: cursor ? 1 : 0, color: theme.blue }}>|</span>
+            </span>
+          </div>
+          <div style={{ width: 70, height: 70, borderRadius: 35, background: theme.green, display: "flex", alignItems: "center", justifyContent: "center", transform: `scale(${check}) rotate(${interpolate(check, [0, 1], [-90, 0])}deg)`, flexShrink: 0, boxShadow: `0 0 40px rgba(34,197,94,0.8)` }}>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#06080F" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12.5l4.5 4.5L19 7" />
+            </svg>
+          </div>
+        </div>
+        <Caption words={["Clear.", "Simple.", {text: "Yours.", color: theme.green}]} size={72} mode="slam" startDelay={73} stagger={13} weight={800} />
+      </div>
+    </Center>
+  );
+};
+
+/* ---------- Scenes 3+4: chart, phone, crash, stamp, flip, push-in ---------- */
+const PhoneScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const crash = CRASH - S3;
+  const stampAt = STAMP - S3;
+  const flipAt = S4 - S3;
+  const len = S5 - S3;
+
+  // entrance: flip in from the side and drop
+  const enter = spring({ frame, fps, config: { damping: 14, stiffness: 90, mass: 1 } });
+  const rotIn = interpolate(enter, [0, 1], [85, -10]);
+  const yIn = interpolate(enter, [0, 1], [500, 0]);
+  const idle = Math.sin(frame / 30) * 3;
+
+  // card flip to the rules screen
+  const flip = interpolate(frame, [flipAt, flipAt + 16, flipAt + 34], [0, 0.5, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const rotFlip = interpolate(flip, [0, 0.5, 1], [0, 90, 180]);
+  const showB = flip >= 0.5;
+  // when past 90deg, show screen B mirrored back so it reads correctly
+  const rotY = frame < flipAt ? rotIn + idle : (showB ? rotFlip - 180 : rotFlip) + idle * 0.5 + (frame >= flipAt ? interpolate(flip, [0, 1], [-10, 0]) : 0);
+
+  // push in to rule #1
+  const push = spring({ frame: frame - flipAt - 40, fps, config: { damping: 18, stiffness: 60, mass: 1.2 } });
+  const pushScale = interpolate(push, [0, 1], [1, 1.75]);
+  const pushY = interpolate(push, [0, 1], [0, 300]);
+  // pull back out for the last beat
+  const pull = interpolate(frame, [len - 30, len - 6], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const scale = interpolate(pull, [0, 1], [pushScale, 1.05]);
+  const y = yIn + interpolate(pull, [0, 1], [pushY, 0]);
+
+  // stamp
+  const stamp = spring({ frame: frame - stampAt, fps, config: { damping: 11, stiffness: 240, mass: 0.6 } });
+  const stampOut = interpolate(frame, [flipAt - 6, flipAt + 6], [1, 0], clamp);
+
+  // scan line + highlight on rule #1
+  const scan = interpolate(frame, [flipAt + 36, flipAt + 60], [-60, 1300], { ...clamp, easing: Easing.inOut(Easing.quad) });
+  const hl = spring({ frame: frame - flipAt - 52, fps, config: { damping: 12, stiffness: 160 } });
+  const tick = spring({ frame: frame - flipAt - 60, fps, config: { damping: 9, stiffness: 220 } });
+
+  // red mood after crash
+  const red = interpolate(frame, [crash, crash + 10, flipAt, flipAt + 20], [0, 1, 1, 0], clamp);
+  const out = interpolate(frame, [len - 6, len + 2], [1, 0], clamp);
+
+  return (
+    <AbsoluteFill style={{ opacity: out }}>
+      {/* red tint after the crash */}
+      <AbsoluteFill style={{ background: `radial-gradient(70% 60% at 50% 60%, rgba(239,68,68,${red * 0.35}) 0%, transparent 70%)` }} />
+
+      {/* chart behind the phone */}
+      <div style={{ position: "absolute", left: -60, top: 980, width: 1200, opacity: interpolate(frame, [flipAt - 10, flipAt + 10], [1, 0], clamp) }}>
+        <Chart width={1200} height={520} startAt={6} crashAt={crash} />
+      </div>
+
+      {/* captions */}
+      <div style={{ position: "absolute", top: 140, left: 0, right: 0, display: "flex", justifyContent: "center", padding: "0 60px" }}>
+        {frame < crash ? (
+          <Caption words={["Then", "the", "candle", "moved…"]} size={92} mode="slam" stagger={6} startDelay={8} exitAt={crash - 8} />
+        ) : frame < flipAt ? (
+          <Caption words={["and", "you", "did", "it", {text: "ANYWAY.", color: theme.red}]} size={92} mode="slam" stagger={4} exitAt={flipAt - 10} />
+        ) : (
+          <Caption
+            words={["Shugo", "checks", "every", "idea", "against", {text: "YOUR", color: theme.blue}, "rules,", "before", "you", "enter."]}
+            size={74}
+            mode="slam"
+            stagger={3}
+            startDelay={10}
+            maxWidth={960}
+            exitAt={len - 12}
+          />
+        )}
+      </div>
+
+      {/* phone */}
+      <div style={{ position: "absolute", top: 560, left: 0, right: 0, height: 1400 }}>
+        <Phone
+          screen={showB ? "screen4.jpg" : "screen2.jpg"}
+          width={560}
+          rotateY={rotY}
+          y={y}
+          scale={scale}
+          opacity={enter}
+          glow={red > 0.5 ? "rgba(239,68,68,0.35)" : showB ? "rgba(34,197,94,0.35)" : "rgba(74,124,255,0.4)"}
+        >
+          <Sweep at={26} len={22} />
+          {showB && (
+            <>
+              <Sweep at={flipAt + 20} len={20} />
+              {/* scan line */}
+              <div style={{ position: "absolute", left: 0, right: 0, top: scan, height: 6, background: theme.green, boxShadow: `0 0 30px ${theme.green}, 0 0 80px ${theme.green}`, opacity: scan > 0 && scan < 1250 ? 0.9 : 0 }} />
+              {/* highlight on rule #1 */}
+              <div style={{ position: "absolute", left: 12, top: 339, width: 546, height: 80, borderRadius: 22, border: `4px solid ${theme.green}`, background: `rgba(34,197,94,${0.12 * hl})`, boxShadow: `0 0 40px rgba(34,197,94,0.8), inset 0 0 30px rgba(34,197,94,0.3)`, opacity: hl, transform: `scale(${interpolate(hl, [0, 1], [1.25, 1])})` }} />
+              <div style={{ position: "absolute", left: 496, top: 350, width: 56, height: 56, borderRadius: 28, background: theme.green, display: "flex", alignItems: "center", justifyContent: "center", transform: `scale(${tick}) rotate(${interpolate(tick, [0, 1], [-120, 0])}deg)`, boxShadow: `0 0 30px rgba(34,197,94,0.9)` }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#06080F" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12.5l4.5 4.5L19 7" />
+                </svg>
+              </div>
+            </>
+          )}
+        </Phone>
+
+        {/* WEAK SETUP stamp */}
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: 330,
+            marginLeft: -300,
+            width: 600,
+            padding: "24px 0",
+            textAlign: "center",
+            fontSize: 66,
+            fontWeight: 900,
+            letterSpacing: 5,
+            color: theme.red,
+            border: `7px solid ${theme.red}`,
+            borderRadius: 26,
+            background: "rgba(6,8,15,0.8)",
+            boxShadow: "0 0 80px rgba(239,68,68,0.6)",
+            transform: `rotate(-10deg) scale(${interpolate(stamp, [0, 1], [3.5, 1])})`,
+            opacity: Math.min(stamp * 1.6, 1) * stampOut,
+            filter: `blur(${interpolate(stamp, [0, 0.8, 1], [10, 1, 0], clamp)}px)`,
+          }}
+        >
+          WEAK SETUP
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};

@@ -1,0 +1,299 @@
+import React from "react";
+import {
+  AbsoluteFill,
+  Sequence,
+  useCurrentFrame,
+  useVideoConfig,
+  spring,
+  interpolate,
+  Easing,
+} from "remotion";
+import { Background } from "../components/Background";
+import { Caption } from "../components/Caption";
+import { Phone } from "../components/Phone";
+import { Outro } from "../components/Outro";
+import { Camera, Flash, Particles, Sweep, Chart, rnd } from "../components/Fx";
+import { theme } from "../theme";
+
+/** Video 3 — "An Honest Verdict" — 18 s */
+const S1 = 0; // your trade idea
+const S2 = 60; // chart + numbers
+const S3 = 180; // phone, analyzing
+const S4 = 270; // stamp + push in
+const S5 = 408; // not what to buy
+const S6 = 490; // outro
+export const VIDEO3_DURATION = 586;
+
+const LOCKS = [S2 + 40, S2 + 58, S2 + 76];
+const STAMP = S4 + 4;
+const SWAP = S5 + 38;
+const ORANGE = "#F97316";
+
+const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+
+export const Video3: React.FC = () => {
+  return (
+    <AbsoluteFill style={{ fontFamily: theme.font, background: theme.bg }}>
+      <Camera
+        cuts={[S1, S2, S3, S5, S6]}
+        whips={[S2, S3]}
+        shakes={[
+          { at: 2, amount: 9 },
+          { at: 26, amount: 10 },
+          ...LOCKS.map((at) => ({ at, amount: 12, len: 10 })),
+          { at: STAMP, amount: 34, len: 20 },
+          { at: S5, amount: 14 },
+          { at: SWAP, amount: 12 },
+          { at: S6 + 6, amount: 18 },
+        ]}
+      >
+        <Background />
+        <Particles />
+
+        <Sequence from={S1} durationInFrames={S2 - S1 + 4} name="Idea">
+          <Idea />
+        </Sequence>
+        <Sequence from={S2} durationInFrames={S3 - S2 + 4} name="Numbers">
+          <Numbers />
+        </Sequence>
+        <Sequence from={S3} durationInFrames={S6 - S3 + 4} name="Phone">
+          <PhoneScene />
+        </Sequence>
+        <Sequence from={S6} durationInFrames={VIDEO3_DURATION - S6} name="Outro">
+          <Outro tagline="An honest verdict before you risk a cent." taglineSize={46} />
+        </Sequence>
+      </Camera>
+
+      <Flash at={[2]} strength={0.3} />
+      <Flash at={LOCKS} strength={0.22} />
+      <Flash at={[STAMP]} strength={0.95} />
+      <Flash at={[SWAP]} color={theme.blue} strength={0.45} />
+    </AbsoluteFill>
+  );
+};
+
+/* ---------- Scene 1 ---------- */
+const Idea: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const len = S2 - S1;
+  const out = interpolate(frame, [len - 6, len], [1, 0], clamp);
+  const card = spring({ frame: frame - 24, fps, config: { damping: 12, stiffness: 150 } });
+  return (
+    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", opacity: out, transform: `scale(${interpolate(frame, [len - 6, len], [1, 1.3], clamp)})` }}>
+      <Caption words={["Your", "trade", { text: "idea.", color: theme.blue }]} size={124} mode="slam" stagger={7} startDelay={2} maxWidth={980} />
+      <div style={{ perspective: 1600, marginTop: 70 }}>
+        <div
+          style={{
+            padding: "40px 64px",
+            borderRadius: 36,
+            background: "rgba(12,16,34,0.85)",
+            border: "2px solid rgba(74,124,255,0.5)",
+            boxShadow: "0 30px 100px rgba(0,0,0,0.6), 0 0 80px rgba(74,124,255,0.3)",
+            fontSize: 76,
+            fontWeight: 800,
+            color: theme.white,
+            transform: `rotateX(${interpolate(card, [0, 1], [-85, 0])}deg) translateY(${interpolate(card, [0, 1], [160, 0])}px)`,
+            transformOrigin: "50% 100%",
+            opacity: card,
+            position: "relative",
+            overflow: "hidden",
+            whiteSpace: "pre",
+          }}
+        >
+          <Sweep at={36} len={18} />
+          NQ · <span style={{ color: theme.green }}>Long</span> · 1h
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/* ---------- Scene 2: chart + slot-machine numbers ---------- */
+const TILES = [
+  { label: "ENTRY", value: 31255, color: theme.white, line: 0.52 },
+  { label: "STOP", value: 31120, color: theme.red, line: 0.8 },
+  { label: "TARGET", value: 31590, color: theme.green, line: 0.14 },
+];
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+const Numbers: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const len = S3 - S2;
+  const out = interpolate(frame, [len - 6, len], [1, 0], clamp);
+  const W = 960;
+  const H = 560;
+  return (
+    <AbsoluteFill style={{ opacity: out }}>
+      <div style={{ position: "absolute", top: 190, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
+        <Caption words={["The", "plan", "looks", { text: "good.", color: theme.green }]} size={92} mode="slam" stagger={5} startDelay={8} />
+      </div>
+
+      <div style={{ position: "absolute", left: 60, top: 520, width: W, height: H }}>
+        {/* level lines appear as each number locks */}
+        {TILES.map((t, i) => {
+          const at = LOCKS[i] - S2;
+          const p = interpolate(frame, [at, at + 12], [0, 1], { ...clamp, easing: Easing.out(Easing.cubic) });
+          return (
+            <div key={i} style={{ position: "absolute", left: 0, top: t.line * H, width: W * p, height: 0, borderTop: `4px dashed ${t.color}`, opacity: 0.75, filter: `drop-shadow(0 0 10px ${t.color})` }} />
+          );
+        })}
+        <Chart width={W} height={H} startAt={4} />
+      </div>
+
+      <div style={{ position: "absolute", left: 50, right: 50, top: 1200, display: "flex", gap: 24 }}>
+        {TILES.map((t, i) => {
+          const at = LOCKS[i] - S2;
+          const enter = spring({ frame: frame - 10 - i * 6, fps, config: { damping: 13, stiffness: 140 } });
+          const locked = frame >= at;
+          const pop = spring({ frame: frame - at, fps, config: { damping: 8, stiffness: 240, mass: 0.6 } });
+          const spin = 30000 + Math.floor(rnd(frame, 30 + i) * 2999);
+          return (
+            <div
+              key={i}
+              style={{
+                flex: 1,
+                padding: "34px 0 38px",
+                borderRadius: 32,
+                background: "rgba(12,16,34,0.85)",
+                border: `2px solid ${locked ? t.color : "rgba(255,255,255,0.14)"}`,
+                boxShadow: locked ? `0 0 60px ${t.color}55` : "0 20px 60px rgba(0,0,0,0.5)",
+                textAlign: "center",
+                transform: `translateY(${interpolate(enter, [0, 1], [240, 0])}px) scale(${locked ? interpolate(pop, [0, 1], [1.22, 1]) : 1})`,
+                opacity: enter,
+              }}
+            >
+              <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: 5, color: "rgba(255,255,255,0.55)" }}>{t.label}</div>
+              <div style={{ marginTop: 10, fontSize: 72, fontWeight: 900, letterSpacing: -2, color: t.color, fontVariantNumeric: "tabular-nums", filter: locked ? undefined : "blur(2px)" }}>
+                {fmt(locked ? t.value : spin)}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/* ---------- Scenes 3–5: phone ---------- */
+const PhoneScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const stampAt = STAMP - S3;
+  const s4 = S4 - S3;
+  const s5 = S5 - S3;
+  const swap = SWAP - S3;
+  const len = S6 - S3;
+  const pushAt = s4 + 72;
+
+  const enter = spring({ frame: frame - 4, fps, config: { damping: 14, stiffness: 90 } });
+  const rotIn = interpolate(enter, [0, 1], [85, -8]);
+  const idle = Math.sin(frame / 30) * 3;
+
+  const push = spring({ frame: frame - pushAt, fps, config: { damping: 18, stiffness: 70, mass: 1.1 } });
+  const pull = spring({ frame: frame - s5 + 4, fps, config: { damping: 16, stiffness: 90 } });
+  const scale = interpolate(push, [0, 1], [1, 1.3]) * interpolate(pull, [0, 1], [1, 0.8 / 1.3]);
+  const y = interpolate(enter, [0, 1], [500, 0]) + interpolate(push, [0, 1], [0, -70]) + interpolate(pull, [0, 1], [0, 330]);
+  const spin = interpolate(frame, [swap - 2, swap + 22], [0, 360], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const rotY = interpolate(push, [0, 1], [rotIn, 0]) + idle * (1 - push * 0.6) + spin;
+
+  // two scan passes while analyzing
+  const scan1 = interpolate(frame, [26, 52], [-60, 1300], { ...clamp, easing: Easing.inOut(Easing.quad) });
+  const scan2 = interpolate(frame, [54, 80], [1300, -60], { ...clamp, easing: Easing.inOut(Easing.quad) });
+  const scan = frame < 53 ? scan1 : scan2;
+  const progress = interpolate(frame, [10, s4 - 2], [0, 1], { ...clamp, easing: Easing.inOut(Easing.quad) });
+
+  const stamp = spring({ frame: frame - stampAt, fps, config: { damping: 11, stiffness: 240, mass: 0.6 } });
+  const stampOut = interpolate(frame, [pushAt - 4, pushAt + 6], [1, 0], clamp);
+  const hl = spring({ frame: frame - pushAt - 14, fps, config: { damping: 12, stiffness: 150 } });
+  const hlOut = interpolate(frame, [s5 - 4, s5 + 6], [1, 0], clamp);
+
+  const orange = interpolate(frame, [stampAt, stampAt + 8, s5 - 4, s5 + 10], [0, 1, 1, 0], clamp);
+  const out = interpolate(frame, [len - 6, len + 2], [1, 0], clamp);
+  const dots = ".".repeat(1 + (Math.floor(frame / 8) % 3));
+
+  return (
+    <AbsoluteFill style={{ opacity: out }}>
+      <AbsoluteFill style={{ background: `radial-gradient(75% 60% at 50% 55%, rgba(249,115,22,${orange * 0.32}) 0%, transparent 70%)` }} />
+
+      <div style={{ position: "absolute", top: 560, left: 0, right: 0, height: 1400 }}>
+        <Phone
+          screen="screen2.jpg"
+          width={560}
+          rotateY={rotY}
+          y={y}
+          scale={scale}
+          opacity={enter}
+          glow={orange > 0.5 ? "rgba(249,115,22,0.45)" : "rgba(74,124,255,0.4)"}
+        >
+          <Sweep at={20} len={20} />
+          <Sweep at={swap + 16} len={18} />
+          <div style={{ position: "absolute", left: 0, right: 0, top: scan, height: 6, background: theme.blue, boxShadow: `0 0 30px ${theme.blue}, 0 0 80px ${theme.blue}`, opacity: frame > 26 && frame < 80 ? 0.9 : 0 }} />
+          {/* highlight on the verdict card */}
+          <div
+            style={{
+              position: "absolute",
+              left: 12,
+              top: 637,
+              width: 546,
+              height: 244,
+              borderRadius: 26,
+              border: `4px solid ${ORANGE}`,
+              background: `rgba(249,115,22,${0.08 * hl})`,
+              boxShadow: `0 0 40px rgba(249,115,22,0.8), inset 0 0 30px rgba(249,115,22,0.25)`,
+              opacity: hl * hlOut,
+              transform: `scale(${interpolate(hl, [0, 1], [1.2, 1])})`,
+            }}
+          />
+        </Phone>
+
+        {/* WEAK SETUP stamp */}
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: 330,
+            marginLeft: -300,
+            width: 600,
+            padding: "24px 0",
+            textAlign: "center",
+            fontSize: 66,
+            fontWeight: 900,
+            letterSpacing: 5,
+            color: ORANGE,
+            border: `7px solid ${ORANGE}`,
+            borderRadius: 26,
+            background: "rgba(6,8,15,0.82)",
+            boxShadow: "0 0 80px rgba(249,115,22,0.6)",
+            transform: `rotate(-10deg) scale(${interpolate(stamp, [0, 1], [3.5, 1])})`,
+            opacity: Math.min(stamp * 1.6, 1) * stampOut,
+            filter: `blur(${interpolate(stamp, [0, 0.8, 1], [10, 1, 0], clamp)}px)`,
+          }}
+        >
+          WEAK SETUP
+        </div>
+      </div>
+
+      {/* captions */}
+      <div style={{ position: "absolute", top: 160, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", padding: "0 50px" }}>
+        {frame < s4 ? (
+          <div style={{ opacity: interpolate(frame, [s4 - 6, s4], [1, 0], clamp), display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Caption words={["Analyzing" + dots]} size={92} mode="slam" startDelay={12} style={{ color: theme.blue, minWidth: 620, justifyContent: "flex-start" }} />
+            <div style={{ marginTop: 34, width: 620, height: 14, borderRadius: 7, background: "rgba(255,255,255,0.12)", overflow: "hidden", opacity: interpolate(frame, [12, 20], [0, 1], clamp) }}>
+              <div style={{ width: `${progress * 100}%`, height: "100%", background: theme.blue, boxShadow: `0 0 20px ${theme.blue}` }} />
+            </div>
+          </div>
+        ) : frame < pushAt ? (
+          <Caption words={["The", { text: "honest", color: ORANGE }, "verdict:"]} size={92} mode="slam" stagger={4} startDelay={s4 + 8} exitAt={pushAt - 8} />
+        ) : frame < s5 ? (
+          <Caption words={["No", "confirmed", "reversal", "candle."]} size={60} mode="slam" stagger={3} startDelay={pushAt + 2} maxWidth={1000} exitAt={s5 - 8} />
+        ) : frame < swap ? (
+          <Caption words={["Not", "what", "to", { text: "buy.", color: theme.red }]} size={120} mode="slam" stagger={4} startDelay={s5 + 2} maxWidth={980} exitAt={swap - 6} />
+        ) : (
+          <Caption words={["Whether", { text: "YOU'D", color: theme.blue }, "approve", "it."]} size={112} mode="slam" stagger={4} startDelay={swap} maxWidth={980} />
+        )}
+      </div>
+    </AbsoluteFill>
+  );
+};
