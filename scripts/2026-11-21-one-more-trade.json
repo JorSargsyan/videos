@@ -1,0 +1,20 @@
+{
+  "slug": "one-more-trade",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "red", "lines": [
+      {"say": "You are near your daily loss limit.", "show": "Near your *daily loss limit.*"},
+      {"say": "And you take one more trade.", "show": "And you take *one more.*"}
+    ]},
+    {"type": "phone", "accent": "amber", "screen": "screen2.jpg", "lines": [
+      {"say": "Give Shugo the idea first.", "show": "Give Shugo the idea *first.*"},
+      {"say": "It checks it against your rules.", "show": "Checked against *your rules.*"},
+      {"say": "Weak setup? You hear it before you enter.", "show": "*Weak setup?* You hear it first."}
+    ]},
+    {"type": "stack", "accent": "blue", "lines": [
+      {"say": "One afternoon can end a funded account.", "show": "One afternoon can end a *funded account.*"},
+      {"say": "What is your daily loss limit?", "show": "What's *your* daily loss limit?"}
+    ]}
+  ],
+  "outro": {"tagline": "Check before you enter.", "say": "Shugo. Check before you enter."}
+}
