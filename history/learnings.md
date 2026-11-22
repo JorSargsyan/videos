@@ -14,7 +14,6 @@ Per channel (views / reactions / posts):
 - Instagram 464 / 16 / 7. Swings from 12 to 169 with no pattern; best is an automated video.
 - YouTube 259 / 3 / 6. Weakest. 2 to 126 views per Short.
 - Average watch time is 3 to 6 seconds on 15 to 22 second videos (TikTok and Instagram).
-
 Best hooks (views across all channels):
 1. "Before the chart, check yourself." 948 (TikTok 808, 47 likes)
 2. "You wrote the rule. Then the candle moved." 505
@@ -24,13 +23,11 @@ Worst hooks:
 2. "You are near your daily loss limit. And you take one more trade." 46 (19 hours old)
 3. "Two losses in a row. Then you size up." 198 (Instagram 169, the best Instagram post)
 The three worst are also the three newest, so age explains at least part of the gap.
-
 Topics: emotional state 948, breaking own rules 505, rules in every analysis 454, verdict before
 trade 364, revenge sizing 198, daily loss limit 46, unread journal 3. One video each: no ranking.
 Scene types: only the 3 automated videos have scene data (hook/stack/phone in all, list in two;
 247 views together). No comparison is possible yet. Keep logging scenes on every video.
 Comments are still 0 on all 20 posts, including the two videos that end on a question.
-
 Instructions for next week's scripts:
 1. First line: six words or fewer, a check or warning aimed at the trader ("Before the chart, check
    yourself." is the model). Use the emotional-state angle in at least 4 of the 14 videos so it
