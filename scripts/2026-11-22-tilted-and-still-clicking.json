@@ -1,0 +1,24 @@
+{
+  "slug": "tilted-and-still-clicking",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "red", "lines": [
+      {"say": "You are tilted right now.", "show": "You are *tilted* right now."},
+      {"say": "And you are still clicking.", "show": "And you're *still clicking.*"}
+    ]},
+    {"type": "phone", "accent": "green", "screen": "screen3.jpg", "lines": [
+      {"say": "Shugo tracks your state before the trade.", "show": "Shugo tracks *your state* first."},
+      {"say": "Calm, heated, or tilted.", "show": "*Calm,* heated, or tilted."}
+    ]},
+    {"type": "list", "accent": "amber", "lines": [
+      {"say": "Tilt has a pattern.", "show": "Tilt has a *pattern.*"},
+      {"say": "Bigger size.", "show": "Bigger size"},
+      {"say": "Faster entries.", "show": "Faster entries"},
+      {"say": "No plan.", "show": "No plan"}
+    ]},
+    {"type": "stack", "accent": "blue", "lines": [
+      {"say": "Calm or tilted, right now?", "show": "*Calm* or *tilted,* right now?"}
+    ]}
+  ],
+  "outro": {"tagline": "Check your state first.", "say": "Shugo. Check your state first."}
+}
