@@ -1,0 +1,20 @@
+{
+  "slug": "bored-is-not-a-setup",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "amber", "lines": [
+      {"say": "Bored is not a setup.", "show": "Bored is *not a setup.*"},
+      {"say": "But you are in a trade anyway.", "show": "But you're in a trade *anyway.*"}
+    ]},
+    {"type": "phone", "accent": "blue", "screen": "screen4.jpg", "lines": [
+      {"say": "Shugo checks every idea against the rules you wrote.", "show": "Every idea, against *your rules.*"},
+      {"say": "Before it becomes a trade.", "show": "*Before* it becomes a trade."}
+    ]},
+    {"type": "stack", "accent": "red", "lines": [
+      {"say": "No rule met. No trade.", "show": "No rule met. *No trade.*"},
+      {"say": "Be honest.", "show": "Be honest."},
+      {"say": "How many trades today?", "show": "How many trades *today?*"}
+    ]}
+  ],
+  "outro": {"tagline": "Boredom is not an edge.", "say": "Shugo. Boredom is not an edge."}
+}
