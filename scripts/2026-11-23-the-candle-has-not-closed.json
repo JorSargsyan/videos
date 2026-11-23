@@ -1,0 +1,24 @@
+{
+  "slug": "the-candle-has-not-closed",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "amber", "lines": [
+      {"say": "The candle has not closed.", "show": "The candle has *not closed.*"},
+      {"say": "And you are already in.", "show": "And you're *already in.*"}
+    ]},
+    {"type": "stack", "accent": "red", "lines": [
+      {"say": "Not a setup.", "show": "Not a setup."},
+      {"say": "Impatience.", "show": "*Impatience.*"}
+    ]},
+    {"type": "phone", "accent": "blue", "screen": "screen2.jpg", "lines": [
+      {"say": "Shugo checks the idea against your rules.", "show": "Shugo checks it against *your rules.*"},
+      {"say": "Before it becomes a trade.", "show": "*Before* it becomes a trade."}
+    ]},
+    {"type": "list", "accent": "green", "lines": [
+      {"say": "Honestly.", "show": "*Honestly.*"},
+      {"say": "Do you wait for the close?", "show": "Do you wait for the close?"},
+      {"say": "Yes or no?", "show": "Yes or no?"}
+    ]}
+  ],
+  "outro": {"tagline": "Wait for the close.", "say": "Shugo. Wait for the close."}
+}
