@@ -1,0 +1,23 @@
+{
+  "slug": "you-moved-your-stop",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "red", "lines": [
+      {"say": "You moved your stop. Again.", "show": "You *moved your stop.* Again."},
+      {"say": "The plan did not change. You did.", "show": "The plan didn't change. *You did.*"}
+    ]},
+    {"type": "list", "accent": "amber", "lines": [
+      {"say": "It sounds reasonable.", "show": "It sounds *reasonable.*"},
+      {"say": "Just a little room.", "show": "Just a little room"},
+      {"say": "One more candle.", "show": "One more candle"}
+    ]},
+    {"type": "phone", "accent": "blue", "screen": "screen1.jpg", "lines": [
+      {"say": "Shugo checks the idea against your rules.", "show": "The idea, against *your rules.*"},
+      {"say": "Before you enter.", "show": "*Before* you enter."}
+    ]},
+    {"type": "stack", "accent": "green", "lines": [
+      {"say": "Did you move your stop today?", "show": "Moved your stop *today?*"}
+    ]}
+  ],
+  "outro": {"tagline": "Set the stop. Leave it.", "say": "Shugo. Set the stop. Leave it."}
+}
