@@ -1,0 +1,23 @@
+{
+  "slug": "you-just-won-careful-now",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "amber", "lines": [
+      {"say": "You just won. Careful now.", "show": "You just won. *Careful now.*"},
+      {"say": "Feeling unbeatable is a state, not a plan.", "show": "Unbeatable is a *state.* Not a plan."}
+    ]},
+    {"type": "phone", "accent": "green", "screen": "screen3.jpg", "lines": [
+      {"say": "Shugo tracks your state.", "show": "Shugo tracks *your state.*"},
+      {"say": "Calm, heated, or tilted.", "show": "Calm, *heated,* or tilted."}
+    ]},
+    {"type": "list", "accent": "blue", "lines": [
+      {"say": "After a win, nothing changes.", "show": "After a win, *nothing changes.*"},
+      {"say": "Same rules.", "show": "Same rules"},
+      {"say": "Same size.", "show": "Same size"}
+    ]},
+    {"type": "stack", "accent": "amber", "lines": [
+      {"say": "Same size, or bigger?", "show": "After a win: same size, or *bigger?*"}
+    ]}
+  ],
+  "outro": {"tagline": "Stay the same after a win.", "say": "Shugo. Stay the same after a win."}
+}
