@@ -1,0 +1,20 @@
+{
+  "slug": "you-trade-like-someone-else",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "amber", "lines": [
+      {"say": "You trade like someone else.", "show": "You trade like *someone else.*"},
+      {"say": "That style was never yours.", "show": "That style was *never yours.*"}
+    ]},
+    {"type": "phone", "accent": "green", "screen": "screen7.jpg", "lines": [
+      {"say": "Shugo reads your own trades.", "show": "Shugo reads *your own* trades."},
+      {"say": "And shows you your trader personality.", "show": "And shows your *trader personality.*"}
+    ]},
+    {"type": "stack", "accent": "blue", "lines": [
+      {"say": "Built from your history. Not a quiz.", "show": "Built from your history. *Not a quiz.*"},
+      {"say": "Trade the way you actually trade.", "show": "Trade the way *you* actually trade."},
+      {"say": "Patient, or impulsive?", "show": "Patient, or *impulsive?*"}
+    ]}
+  ],
+  "outro": {"tagline": "Know your trader DNA.", "say": "Shugo. Know your trader DNA."}
+}
