@@ -1,0 +1,20 @@
+{
+  "slug": "same-mistake-different-day",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "red", "lines": [
+      {"say": "Same mistake. Different day.", "show": "Same mistake. *Different day.*"},
+      {"say": "You do not see it. Your history does.", "show": "You don't see it. *Your history does.*"}
+    ]},
+    {"type": "stack", "accent": "amber", "lines": [
+      {"say": "It is not bad luck.", "show": "It is not *bad luck.*"},
+      {"say": "It is a pattern.", "show": "It is a *pattern.*"}
+    ]},
+    {"type": "phone", "accent": "blue", "screen": "screen6.jpg", "lines": [
+      {"say": "Shugo reads your trade history.", "show": "Shugo reads *your history.*"},
+      {"say": "And shows you the pattern.", "show": "And shows you *the pattern.*"},
+      {"say": "Your most repeated mistake?", "show": "Your most repeated *mistake?*"}
+    ]}
+  ],
+  "outro": {"tagline": "See the pattern. Break it.", "say": "Shugo. See the pattern. Break it."}
+}
