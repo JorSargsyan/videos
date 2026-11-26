@@ -1,0 +1,23 @@
+{
+  "slug": "the-move-left-without-you",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "red", "lines": [
+      {"say": "The move left without you.", "show": "The move *left without you.*"},
+      {"say": "So you chase it.", "show": "So you *chase it.*"}
+    ]},
+    {"type": "list", "accent": "amber", "lines": [
+      {"say": "It feels urgent.", "show": "It feels *urgent.*"},
+      {"say": "It is still running.", "show": "It is still running"},
+      {"say": "Just get in.", "show": "Just get in"}
+    ]},
+    {"type": "phone", "accent": "blue", "screen": "screen2.jpg", "lines": [
+      {"say": "Shugo checks the idea against your rules.", "show": "The idea, against *your rules.*"},
+      {"say": "Honest verdict: weak setup.", "show": "Honest verdict: *weak setup.*"}
+    ]},
+    {"type": "stack", "accent": "green", "lines": [
+      {"say": "Chased a move today?", "show": "Chased a move *today?*"}
+    ]}
+  ],
+  "outro": {"tagline": "Wait for your setup.", "say": "Shugo. Wait for your setup."}
+}
