@@ -1,0 +1,25 @@
+{
+  "slug": "it-made-money-still-a-bad-trade",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "red", "lines": [
+      {"say": "It made money.", "show": "It *made money.*"},
+      {"say": "Still a bad trade.", "show": "Still a *bad trade.*"}
+    ]},
+    {"type": "stack", "accent": "amber", "lines": [
+      {"say": "You broke your rule.", "show": "You broke *your rule.*"},
+      {"say": "And it paid you.", "show": "And it paid you."},
+      {"say": "That is the dangerous one.", "show": "That's the *dangerous* one."}
+    ]},
+    {"type": "phone", "accent": "blue", "screen": "screen5.jpg", "lines": [
+      {"say": "Shugo grades every journal entry.", "show": "Shugo grades *every entry.*"},
+      {"say": "On the process. Not the profit.", "show": "The *process.* Not the profit."}
+    ]},
+    {"type": "list", "accent": "green", "lines": [
+      {"say": "Your last win.", "show": "Your *last win:*"},
+      {"say": "Clean?", "show": "Clean?"},
+      {"say": "Or lucky?", "show": "Or lucky?"}
+    ]}
+  ],
+  "outro": {"tagline": "Process over prediction.", "say": "Shugo. Process over prediction."}
+}
