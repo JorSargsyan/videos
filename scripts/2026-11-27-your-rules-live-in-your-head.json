@@ -1,0 +1,24 @@
+{
+  "slug": "your-rules-live-in-your-head",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "red", "lines": [
+      {"say": "Your rules live in your head.", "show": "Your rules live *in your head.*"},
+      {"say": "So they bend.", "show": "So they *bend.*"}
+    ]},
+    {"type": "phone", "accent": "green", "screen": "screen4.jpg", "lines": [
+      {"say": "Write them down once.", "show": "Write them down *once.*"},
+      {"say": "Shugo checks every idea against them.", "show": "Shugo checks *every idea* against them."}
+    ]},
+    {"type": "list", "accent": "blue", "lines": [
+      {"say": "Before the trade. Not after.", "show": "*Before* the trade. Not after."},
+      {"say": "Your risk.", "show": "Your risk"},
+      {"say": "Your setup.", "show": "Your setup"},
+      {"say": "Your limit.", "show": "Your limit"}
+    ]},
+    {"type": "stack", "accent": "amber", "lines": [
+      {"say": "Are your rules written down?", "show": "Are your rules *written down?*"}
+    ]}
+  ],
+  "outro": {"tagline": "Your rules, in writing.", "say": "Shugo. Your rules, in writing."}
+}
