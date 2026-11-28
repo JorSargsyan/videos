@@ -1,0 +1,20 @@
+{
+  "slug": "your-setup-is-here-and-you-freeze",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "amber", "lines": [
+      {"say": "Your setup is here.", "show": "Your *setup* is here."},
+      {"say": "And you freeze.", "show": "And you *freeze.*"}
+    ]},
+    {"type": "phone", "accent": "blue", "screen": "screen3.jpg", "lines": [
+      {"say": "Fear is a state. Not a rule.", "show": "Fear is a state. *Not a rule.*"},
+      {"say": "Shugo tracks your state before the trade.", "show": "Shugo tracks *your state* first."}
+    ]},
+    {"type": "stack", "accent": "green", "lines": [
+      {"say": "And checks the idea against your own rules.", "show": "And checks it against *your rules.*"},
+      {"say": "No prediction. Just your plan.", "show": "No prediction. *Just your plan.*"},
+      {"say": "Last clean setup: taken, or skipped?", "show": "Last clean setup: taken, or *skipped?*"}
+    ]}
+  ],
+  "outro": {"tagline": "Know your state. Then decide.", "say": "Shugo. Know your state. Then decide."}
+}
