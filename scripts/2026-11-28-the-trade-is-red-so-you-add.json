@@ -1,0 +1,24 @@
+{
+  "slug": "the-trade-is-red-so-you-add",
+  "voice": "am_michael",
+  "scenes": [
+    {"type": "hook", "accent": "red", "lines": [
+      {"say": "The trade is red.", "show": "The trade is *red.*"},
+      {"say": "So you add more.", "show": "So you *add more.*"}
+    ]},
+    {"type": "list", "accent": "amber", "lines": [
+      {"say": "That is not conviction.", "show": "That's not *conviction.*"},
+      {"say": "It is hope.", "show": "It's hope"},
+      {"say": "With more size.", "show": "With more size"}
+    ]},
+    {"type": "phone", "accent": "blue", "screen": "screen4.jpg", "lines": [
+      {"say": "Shugo checks the idea against your rules.", "show": "The idea, against *your rules.*"},
+      {"say": "Before you enter.", "show": "*Before* you enter."}
+    ]},
+    {"type": "stack", "accent": "green", "lines": [
+      {"say": "Adding to a loser.", "show": "Adding to a loser:"},
+      {"say": "In your rules, or not?", "show": "*In your rules,* or not?"}
+    ]}
+  ],
+  "outro": {"tagline": "Your rules, before the trade.", "say": "Shugo. Your rules, before the trade."}
+}
